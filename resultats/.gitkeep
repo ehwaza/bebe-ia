@@ -1,0 +1,5 @@
+# resultats/ — courbes, logs, rapports
+#
+# seed_<n>/           runs multi-seeds (resultats.json + hist.npz par run)
+# courbes_multi_seeds.png · resultats_multi_seeds.md   agregation multi_seeds.py
+# resultats_final.md  synthese finale (scripts/analyse.py)

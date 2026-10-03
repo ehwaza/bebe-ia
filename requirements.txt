@@ -1,0 +1,7 @@
+# bebe-ia — dependances (minimales, auditable)
+torch>=2.0
+numpy>=1.24
+matplotlib>=3.7
+tqdm>=4.65
+# optionnel : source de donnees wikipedia (scripts/entrainer_local.py --source wikipedia)
+datasets>=2.14

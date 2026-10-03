@@ -1,0 +1,6 @@
+# etats/ — checkpoints des fragments
+#
+# etat_courant/ : le fragment GitHub (repris a chaque cycle par le workflow)
+# local/        : le fragment local
+# fusionnee/    : sortie de la fusion par confiance (scripts/synchroniser.py)
+# Chaque paquet = format bebe-etat/1 : model.pt, memoire.npz, hist.npz, meta.json
