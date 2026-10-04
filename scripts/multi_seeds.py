@@ -19,10 +19,14 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 
-def lancer_run(seed, n, out, source):
+def lancer_run(seed, n, out, source, regles=None, central_spec=None):
     cmd = [sys.executable, str(ROOT / "scripts" / "entrainer_local.py"),
            "--n", str(n), "--seed", str(seed), "--seed-data", str(seed * 7919 + 13),
            "--out", str(out), "--source", source, "--eval-every", "2000"]
+    if regles:                      # shard de regles (defaut None = toutes = neutre)
+        cmd += ["--regles", str(regles)]
+    if central_spec:                # controle central concat pools (defaut None = neutre)
+        cmd += ["--central-spec", str(central_spec)]
     print(">>", " ".join(cmd), flush=True)
     subprocess.run(cmd, check=True, cwd=ROOT)
 
@@ -33,6 +37,10 @@ def main():
     ap.add_argument("--n", type=int, default=50000)
     ap.add_argument("--seeds", default=None, help="ex: 1234,1235,1236,1237,1238")
     ap.add_argument("--source", default="synthetique")
+    ap.add_argument("--regles", default=None,
+                    help="shard de regles (ex: 'rep') = meme pass-through que fragment")
+    ap.add_argument("--central-spec", default=None,
+                    help="JSON central-spec (concat pools) = meme pass-through")
     ap.add_argument("--out-root", default=str(ROOT / "resultats"))
     a = ap.parse_args()
 
@@ -46,7 +54,8 @@ def main():
         if (d / "resultats.json").exists():
             print(f"seed_{s} deja present : saute (supprime le dossier pour relancer)")
             continue
-        lancer_run(s, a.n, d, a.source)
+        lancer_run(s, a.n, d, a.source, regles=a.regles,
+                   central_spec=a.central_spec)
 
     # --- agregation : moyenne + variance
     traces, resumes = [], []

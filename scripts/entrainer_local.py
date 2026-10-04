@@ -63,7 +63,22 @@ def _charger_wikipedia(cache, n_articles=2000):
     return "\n".join(morceaux)
 
 
-def charger_donnees(source, seed_data, cache=None, reserve_frac=0.0):
+def _gen_filtre(rng, regles):
+    """Item de banc.gen_item RESTREINT a un sous-ensemble de regles.
+
+    Même algorithme que fragment.py (rejet) : meme rng -> meme pool,
+    local/GitHub/Colab partagent la meme distribution. Defaut None = intact.
+    """
+    if not regles:
+        return banc.gen_item(rng)
+    while True:
+        it = banc.gen_item(rng)
+        if it[2] in regles:
+            return it
+
+
+def charger_donnees(source, seed_data, cache=None, reserve_frac=0.0,
+                    regles=None, central_spec=None):
     """Generateur INFINI d'interactions (src, cible). Reproductible.
 
     reserve_frac > 0 : plan B (zero fuite par construction) -- la queue du
@@ -71,10 +86,24 @@ def charger_donnees(source, seed_data, cache=None, reserve_frac=0.0):
     la marche modulo ne peut JAMAIS l'atteindre. Defaut 0.0 = comportement
     identique aux runs existants (zéro regression). Doit etre genere par le
     generateur wiki_heldout avec le MEME cache (sinon cut different).
+    regles : sous-ensemble de banc.gen_item restreint (distribution par shard).
+    central_spec : JSON [{data_seed,regles,pool},...] -> pool = concat des
+    shards (LE CONTROLE central, meme multiset que l'union des fragments).
     """
     if source == "synthetique":
-        rng = random.Random(seed_data)
-        pool = [banc.gen_item(rng) for _ in range(1200)]  # le monde revient
+        if isinstance(regles, str):
+            regles = set(r.strip() for r in regles.split(",") if r.strip()) or None
+        if central_spec:
+            spec = json.loads(central_spec)
+            pool = []
+            for s in spec:
+                rr = random.Random(int(s["data_seed"]))
+                rg = set(x.strip() for x in s.get("regles", "").split(",")
+                         if x.strip()) or None
+                pool += [_gen_filtre(rr, rg) for _ in range(int(s.get("pool", 300)))]
+        else:
+            rng = random.Random(seed_data)
+            pool = [_gen_filtre(rng, regles) for _ in range(1200)]
         i = 0
         while True:
             src, cible, _ = pool[i % len(pool)]
@@ -102,7 +131,7 @@ def boucle_entrainement(n, out_dir, seed, seed_data, source="synthetique",
                         cache=None, heldout_path=None, budget_s=None,
                         eval_every=1000, ckpt_every=25000, device=None,
                         amp=False, lr=3e-4, parent_dir=None, verbose=True,
-                        reserve_frac=0.0):
+                        reserve_frac=0.0, regles=None, central_spec=None):
     """Coeur d'entrainement partage (local, GitHub, Colab, multi-seeds)."""
     device = device or ("cuda" if torch.cuda.is_available() else "cpu")
     out_dir = Path(out_dir)
@@ -133,7 +162,10 @@ def boucle_entrainement(n, out_dir, seed, seed_data, source="synthetique",
     opt = torch.optim.SGD(model.parameters(), lr=lr)
     lossf = torch.nn.CrossEntropyLoss()
     scaler = torch.amp.GradScaler("cuda", enabled=amp and device.startswith("cuda"))
-    gen = charger_donnees(source, seed_data, cache, reserve_frac)
+    if isinstance(regles, str):  # normalise pour le pool ET la trace meta
+        regles = set(r.strip() for r in regles.split(",") if r.strip()) or None
+    gen = charger_donnees(source, seed_data, cache, reserve_frac,
+                          regles, central_spec)
 
     t0, n_fait, ms_lst = time.time(), 0, []
     for i in range(int(n)):
@@ -177,7 +209,7 @@ def boucle_entrainement(n, out_dir, seed, seed_data, source="synthetique",
         if ckpt_every and (i + 1) % ckpt_every == 0:
             _sauver(out_dir, model, mem, hist, parent_meta, cycle,
                     parent_n, n_fait, heldout_path, seed, seed_data,
-                    ms_lst, source)
+                    ms_lst, source, regles)
 
         if budget_s and (time.time() - t0) > float(budget_s):
             if verbose:
@@ -186,7 +218,7 @@ def boucle_entrainement(n, out_dir, seed, seed_data, source="synthetique",
 
     res = _sauver(out_dir, model, mem, hist, parent_meta, cycle,
                   parent_n, n_fait, heldout_path, seed, seed_data,
-                  ms_lst, source)
+                  ms_lst, source, regles)
     return res
 
 
@@ -196,7 +228,7 @@ def evaluer_rapide(model, mem, items, device="cpu"):
 
 
 def _sauver(out_dir, model, mem, hist, parent_meta, cycle, parent_n,
-            n_fait, heldout_path, seed, seed_data, ms_lst, source):
+            n_fait, heldout_path, seed, seed_data, ms_lst, source, regles):
     ms_moy = float(np.mean(ms_lst)) if ms_lst else float("nan")
     code_sha = etat.sha256_file(ROOT / "banc.py")[:12]
     parent = ("root" if parent_meta is None else
@@ -213,6 +245,7 @@ def _sauver(out_dir, model, mem, hist, parent_meta, cycle, parent_n,
         "heldout_sha256": etat.sha256_file(heldout_path),
         "code_sha": code_sha,
         "source": source,
+        "regles": (sorted(regles) if regles else None),
         "metrics": {
             "ece": float(hist["ece"][-1]) if hist["ece"] else float("nan"),
             "ms_per_iter": ms_moy,
@@ -245,6 +278,10 @@ def main():
     ap.add_argument("--heldout", default=str(ROOT / "heldout.npz"))
     ap.add_argument("--reserve-frac", type=float, default=0.0,
                     help="queue du corpus reservee au heldout (0 = off)")
+    ap.add_argument("--regles", default=None,
+                    help="regles de gen_item autorisees (ex: arith,rep). Vide = toutes")
+    ap.add_argument("--central-spec", default=None,
+                    help="JSON [{data_seed,regles,pool},...] -> concat des shards (LE CONTROLE)")
     ap.add_argument("--budget-seconds", type=float, default=None)
     ap.add_argument("--eval-every", type=int, default=1000)
     ap.add_argument("--ckpt-every", type=int, default=25000)
@@ -259,7 +296,8 @@ def main():
         source=a.source, cache=a.cache, heldout_path=a.heldout,
         budget_s=a.budget_seconds, eval_every=a.eval_every,
         ckpt_every=a.ckpt_every, device=a.device, amp=a.amp,
-        reserve_frac=a.reserve_frac,
+        reserve_frac=a.reserve_frac, regles=a.regles,
+        central_spec=a.central_spec,
         parent_dir=(Path(a.reprendre) if a.reprendre else None))
     print(json.dumps(r, indent=2, ensure_ascii=False))
 
