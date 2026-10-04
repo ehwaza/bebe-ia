@@ -1,0 +1,48 @@
+{
+ "codes": {
+  "s17_nu": 0,
+  "s17_miel": 0,
+  "s18_nu": 0,
+  "s18_miel": 0,
+  "s19_nu": 0,
+  "s19_miel": 0
+ },
+ "n_cible": 50000,
+ "s17_nu": {
+  "n_interactions": 50000,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "miel_taux_activation": null
+ },
+ "s17_miel": {
+  "n_interactions": 50000,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "miel_taux_activation": 0.43178
+ },
+ "s18_nu": {
+  "n_interactions": 50000,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "miel_taux_activation": null
+ },
+ "s18_miel": {
+  "n_interactions": 50000,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "miel_taux_activation": 0.4441
+ },
+ "s19_nu": {
+  "n_interactions": 50000,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "miel_taux_activation": null
+ },
+ "s19_miel": {
+  "n_interactions": 50000,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "miel_taux_activation": 0.43176
+ },
+ "step_matched_strict": true
+}
