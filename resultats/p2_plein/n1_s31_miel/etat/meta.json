@@ -1,0 +1,47 @@
+{
+  "fragment": "local-00031",
+  "parent": "root",
+  "cycle": 0,
+  "parent_n": 0,
+  "n_new": 59403,
+  "n_interactions": 59403,
+  "seeds": {
+    "init": 2031,
+    "data": 31,
+    "eval": 999
+  },
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "source": "synthetique",
+  "regles": [
+    "arith",
+    "miroir"
+  ],
+  "metrics": {
+    "ece": 0.30957222913280585,
+    "ms_per_iter": 8.034532255547084,
+    "items_per_s": 124.46275255284395
+  },
+  "miel": {
+    "fichier": "F:\\becvide\\miel_phase1.npz",
+    "sha256": "619105c33f5aed5e60b2c156a94b24bf815c405ea7a0e6eb20081a1fb70997af",
+    "m": 1925,
+    "consultes": 59403,
+    "actifs": 15147,
+    "taux_activation": 0.2549871218625322,
+    "code_sha_entre": "0c5c3c4e0f82",
+    "sk_moy": 0.43705402122825465,
+    "sk_p50": 0.41232381012842767,
+    "sk_p90": 0.6866787766459848,
+    "sk_p99": 0.9084180037026973,
+    "sk_max": 0.9619082742270684
+  },
+  "format": "bebe-etat/1",
+  "created_utc": "2026-10-04T06:12:42",
+  "arch": {
+    "d": 128,
+    "nl": 2,
+    "heads": 4,
+    "nv": 39
+  }
+}

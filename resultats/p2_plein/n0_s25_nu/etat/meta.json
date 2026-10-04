@@ -1,0 +1,32 @@
+{
+  "fragment": "local-00025",
+  "parent": "root",
+  "cycle": 0,
+  "parent_n": 0,
+  "n_new": 61391,
+  "n_interactions": 61391,
+  "seeds": {
+    "init": 2025,
+    "data": 25,
+    "eval": 999
+  },
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "source": "synthetique",
+  "regles": [
+    "rep"
+  ],
+  "metrics": {
+    "ece": 0.3626539152453781,
+    "ms_per_iter": 8.244001937816252,
+    "items_per_s": 121.30031112837041
+  },
+  "format": "bebe-etat/1",
+  "created_utc": "2026-10-04T05:52:32",
+  "arch": {
+    "d": 128,
+    "nl": 2,
+    "heads": 4,
+    "nv": 39
+  }
+}

@@ -1,0 +1,591 @@
+{
+ "codes": {
+  "n0_s20_nu": 0,
+  "n0_s20_miel": 0,
+  "n0_s21_nu": 0,
+  "n0_s21_miel": 0,
+  "n0_s22_nu": 0,
+  "n0_s22_miel": 0,
+  "n0_s23_nu": 0,
+  "n0_s23_miel": 0,
+  "n0_s24_nu": 0,
+  "n0_s24_miel": 0,
+  "n0_s25_nu": 0,
+  "n0_s25_miel": 0,
+  "n0_s26_nu": 0,
+  "n0_s26_miel": 0,
+  "n1_s27_nu": 0,
+  "n1_s27_miel": 0,
+  "n1_s28_nu": 0,
+  "n1_s28_miel": 0,
+  "n1_s29_nu": 0,
+  "n1_s29_miel": 0,
+  "n1_s30_nu": 0,
+  "n1_s30_miel": 0,
+  "n1_s31_nu": 0,
+  "n1_s31_miel": 0,
+  "n1_s32_nu": 0,
+  "n1_s32_miel": 0,
+  "n1_s33_nu": 0,
+  "n1_s33_miel": 0,
+  "n1_s34_nu": 0,
+  "n1_s34_miel": 0,
+  "n1_s35_nu": 0,
+  "n1_s35_miel": 0,
+  "n1_s36_nu": 0,
+  "n1_s36_miel": 0,
+  "n2_s37_nu": 0,
+  "n2_s37_miel": 0,
+  "n2_s38_nu": 0,
+  "n2_s38_miel": 0,
+  "n2_s39_nu": 0,
+  "n2_s39_miel": 0,
+  "n2_s40_nu": 0,
+  "n2_s40_miel": 0,
+  "n2_s41_nu": 0,
+  "n2_s41_miel": 0,
+  "n2_s42_nu": 0,
+  "n2_s42_miel": 0,
+  "n2_s43_nu": 0,
+  "n2_s43_miel": 0,
+  "n2_s44_nu": 0,
+  "n2_s44_miel": 0,
+  "n2_s45_nu": 0,
+  "n2_s45_miel": 0,
+  "n2_s46_nu": 0,
+  "n2_s46_miel": 0
+ },
+ "reused": [
+  "n017",
+  "n018",
+  "n019"
+ ],
+ "vagues": 9,
+ "duree_s": 5442,
+ "n0_s20_nu": {
+  "n_interactions": 50565,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": null
+ },
+ "n0_s20_miel": {
+  "n_interactions": 46962,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": 0.46441804011754184
+ },
+ "n0_s21_nu": {
+  "n_interactions": 49936,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": null
+ },
+ "n0_s21_miel": {
+  "n_interactions": 46531,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": 0.4500010745524489
+ },
+ "n0_s22_nu": {
+  "n_interactions": 49885,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": null
+ },
+ "n0_s22_miel": {
+  "n_interactions": 48113,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": 0.446636044312348
+ },
+ "n0_s23_nu": {
+  "n_interactions": 61143,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": null
+ },
+ "n0_s23_miel": {
+  "n_interactions": 57500,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": 0.43753043478260867
+ },
+ "n0_s24_nu": {
+  "n_interactions": 61465,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": null
+ },
+ "n0_s24_miel": {
+  "n_interactions": 57479,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": 0.4424746429130639
+ },
+ "n0_s25_nu": {
+  "n_interactions": 61391,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": null
+ },
+ "n0_s25_miel": {
+  "n_interactions": 57245,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": 0.4459778146563019
+ },
+ "n0_s26_nu": {
+  "n_interactions": 61514,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": null
+ },
+ "n0_s26_miel": {
+  "n_interactions": 58000,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rep"
+  ],
+  "miel_taux_activation": 0.4376551724137931
+ },
+ "n1_s27_nu": {
+  "n_interactions": 63500,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": null
+ },
+ "n1_s27_miel": {
+  "n_interactions": 59528,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": 0.24071025399811855
+ },
+ "n1_s28_nu": {
+  "n_interactions": 63590,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": null
+ },
+ "n1_s28_miel": {
+  "n_interactions": 59665,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": 0.24681136344590632
+ },
+ "n1_s29_nu": {
+  "n_interactions": 63819,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": null
+ },
+ "n1_s29_miel": {
+  "n_interactions": 59678,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": 0.25500184322530917
+ },
+ "n1_s30_nu": {
+  "n_interactions": 63911,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": null
+ },
+ "n1_s30_miel": {
+  "n_interactions": 59793,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": 0.2426872710852441
+ },
+ "n1_s31_nu": {
+  "n_interactions": 63868,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": null
+ },
+ "n1_s31_miel": {
+  "n_interactions": 59403,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": 0.2549871218625322
+ },
+ "n1_s32_nu": {
+  "n_interactions": 63803,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": null
+ },
+ "n1_s32_miel": {
+  "n_interactions": 60000,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": 0.25083333333333335
+ },
+ "n1_s33_nu": {
+  "n_interactions": 63500,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": null
+ },
+ "n1_s33_miel": {
+  "n_interactions": 59577,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": 0.24910619870084094
+ },
+ "n1_s34_nu": {
+  "n_interactions": 63649,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": null
+ },
+ "n1_s34_miel": {
+  "n_interactions": 59573,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": 0.26171252077283336
+ },
+ "n1_s35_nu": {
+  "n_interactions": 63603,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": null
+ },
+ "n1_s35_miel": {
+  "n_interactions": 59668,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": 0.2582959040021452
+ },
+ "n1_s36_nu": {
+  "n_interactions": 63511,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": null
+ },
+ "n1_s36_miel": {
+  "n_interactions": 59861,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "arith",
+   "miroir"
+  ],
+  "miel_taux_activation": 0.24065752326222414
+ },
+ "n2_s37_nu": {
+  "n_interactions": 65161,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": null
+ },
+ "n2_s37_miel": {
+  "n_interactions": 61009,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": 0.3499319772492583
+ },
+ "n2_s38_nu": {
+  "n_interactions": 64842,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": null
+ },
+ "n2_s38_miel": {
+  "n_interactions": 60814,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": 0.3557075673364686
+ },
+ "n2_s39_nu": {
+  "n_interactions": 64704,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": null
+ },
+ "n2_s39_miel": {
+  "n_interactions": 60785,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": 0.34166323928600806
+ },
+ "n2_s40_nu": {
+  "n_interactions": 64890,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": null
+ },
+ "n2_s40_miel": {
+  "n_interactions": 60528,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": 0.34002445149352367
+ },
+ "n2_s41_nu": {
+  "n_interactions": 65256,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": null
+ },
+ "n2_s41_miel": {
+  "n_interactions": 61111,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": 0.34666426666230304
+ },
+ "n2_s42_nu": {
+  "n_interactions": 65500,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": null
+ },
+ "n2_s42_miel": {
+  "n_interactions": 60997,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": 0.3266226207846287
+ },
+ "n2_s43_nu": {
+  "n_interactions": 65182,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": null
+ },
+ "n2_s43_miel": {
+  "n_interactions": 60942,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": 0.3459190705917102
+ },
+ "n2_s44_nu": {
+  "n_interactions": 64781,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": null
+ },
+ "n2_s44_miel": {
+  "n_interactions": 60975,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": 0.3498646986469865
+ },
+ "n2_s45_nu": {
+  "n_interactions": 65239,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": null
+ },
+ "n2_s45_miel": {
+  "n_interactions": 61000,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": 0.334983606557377
+ },
+ "n2_s46_nu": {
+  "n_interactions": 65414,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": null
+ },
+ "n2_s46_miel": {
+  "n_interactions": 61066,
+  "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+  "code_sha": "1ac15d6fc88c",
+  "regles": [
+   "rnd",
+   "saut"
+  ],
+  "miel_taux_activation": 0.36069171060819444
+ }
+}
