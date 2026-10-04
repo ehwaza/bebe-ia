@@ -27,6 +27,7 @@ Invariants techniques :
 import base64
 import hashlib
 import json
+import re
 import sys
 import time
 from pathlib import Path
@@ -44,6 +45,8 @@ except Exception:  # banc/torch indisponible -> validation seule
 
 VERSION = 1
 NICHE_MIN = "regles="  # motif minimal d'une niche valide
+# abeille = 16 hex minuscules (64 bits opaques, non identifiant — spec v1)
+ABEILLE_RE = re.compile(r"^[0-9a-f]{16}$")
 
 
 # ------------------------------------------------------------------ b64/utils
@@ -155,7 +158,8 @@ def valider(ligne) -> tuple:
         return False, r
     dur(ligne.get("v") == VERSION, f"version != {VERSION}")
     ab = ligne.get("abeille")
-    dur(isinstance(ab, str) and 8 <= len(ab) <= 64, "abeille absente/court")
+    dur(isinstance(ab, str) and ABEILLE_RE.match(ab) is not None,
+        "abeille != hex16 (^[0-9a-f]{16}$)")
     ni = ligne.get("niche")
     dur(isinstance(ni, str) and NICHE_MIN in ni and "data_seed" in ni,
         "niche mal formee (attendu 'regles=...; data_seed=N')")

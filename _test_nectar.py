@@ -77,6 +77,14 @@ ok5, r5 = nectar.valider(l5)
 assert not ok5 and any("ok_num" in x for x in r5), f"ok_num byzantin accepte: {r5}"
 print(f"[3d] ok_num byzantin : {r5}")
 
+# --- abeille hors format hex16 -> refuse
+l6 = json.loads(json.dumps(ligne))
+l6["abeille"] = "AbeilleNaise"
+l6["h"] = nectar._h(l6)
+ok6, r6 = nectar.valider(l6)
+assert not ok6 and any("hex16" in x for x in r6), f"abeille non gatee: {r6}"
+print(f"[3e] abeille hex16 gatee : {r6}")
+
 # --- jsonl : ecrit + relit
 import tempfile, os
 p = os.path.join(tempfile.mkdtemp(), "miel.jsonl")
