@@ -63,8 +63,15 @@ def _charger_wikipedia(cache, n_articles=2000):
     return "\n".join(morceaux)
 
 
-def charger_donnees(source, seed_data, cache=None):
-    """Generateur INFINI d'interactions (src, cible). Reproductible."""
+def charger_donnees(source, seed_data, cache=None, reserve_frac=0.0):
+    """Generateur INFINI d'interactions (src, cible). Reproductible.
+
+    reserve_frac > 0 : plan B (zero fuite par construction) -- la queue du
+    corpus filtre est reservee au heldout ; le train ne voit que la tete et
+    la marche modulo ne peut JAMAIS l'atteindre. Defaut 0.0 = comportement
+    identique aux runs existants (zéro regression). Doit etre genere par le
+    generateur wiki_heldout avec le MEME cache (sinon cut different).
+    """
     if source == "synthetique":
         rng = random.Random(seed_data)
         pool = [banc.gen_item(rng) for _ in range(1200)]  # le monde revient
@@ -78,6 +85,8 @@ def charger_donnees(source, seed_data, cache=None):
     else:  # texte
         texte = Path(cache).read_text(encoding="utf-8", errors="ignore")
     texte = "".join(c for c in texte.lower() if c in banc.VOCAB)
+    if reserve_frac > 0:  # coupe APRES filtre VOCAB (meme ordre que le generateur)
+        texte = texte[:int(len(texte) * (1 - reserve_frac))]
     if len(texte) < L_FEN + 2:
         raise ValueError("corpus trop petit pour le source " + source)
     rng = random.Random(seed_data)
@@ -92,7 +101,8 @@ def charger_donnees(source, seed_data, cache=None):
 def boucle_entrainement(n, out_dir, seed, seed_data, source="synthetique",
                         cache=None, heldout_path=None, budget_s=None,
                         eval_every=1000, ckpt_every=25000, device=None,
-                        amp=False, lr=3e-4, parent_dir=None, verbose=True):
+                        amp=False, lr=3e-4, parent_dir=None, verbose=True,
+                        reserve_frac=0.0):
     """Coeur d'entrainement partage (local, GitHub, Colab, multi-seeds)."""
     device = device or ("cuda" if torch.cuda.is_available() else "cpu")
     out_dir = Path(out_dir)
@@ -123,7 +133,7 @@ def boucle_entrainement(n, out_dir, seed, seed_data, source="synthetique",
     opt = torch.optim.SGD(model.parameters(), lr=lr)
     lossf = torch.nn.CrossEntropyLoss()
     scaler = torch.amp.GradScaler("cuda", enabled=amp and device.startswith("cuda"))
-    gen = charger_donnees(source, seed_data, cache)
+    gen = charger_donnees(source, seed_data, cache, reserve_frac)
 
     t0, n_fait, ms_lst = time.time(), 0, []
     for i in range(int(n)):
@@ -233,6 +243,8 @@ def main():
                     choices=["synthetique", "texte", "wikipedia"])
     ap.add_argument("--cache", default=None, help="cache corpus (Drive possible)")
     ap.add_argument("--heldout", default=str(ROOT / "heldout.npz"))
+    ap.add_argument("--reserve-frac", type=float, default=0.0,
+                    help="queue du corpus reservee au heldout (0 = off)")
     ap.add_argument("--budget-seconds", type=float, default=None)
     ap.add_argument("--eval-every", type=int, default=1000)
     ap.add_argument("--ckpt-every", type=int, default=25000)
@@ -247,6 +259,7 @@ def main():
         source=a.source, cache=a.cache, heldout_path=a.heldout,
         budget_s=a.budget_seconds, eval_every=a.eval_every,
         ckpt_every=a.ckpt_every, device=a.device, amp=a.amp,
+        reserve_frac=a.reserve_frac,
         parent_dir=(Path(a.reprendre) if a.reprendre else None))
     print(json.dumps(r, indent=2, ensure_ascii=False))
 
