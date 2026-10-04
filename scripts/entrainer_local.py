@@ -3,9 +3,9 @@
 
 Le BEBE apprend EN LIGNE, SANS SUPERVISION DE CONFIANCE :
   1 interaction = 1 contexte -> 1 prediction -> 1 feedback 0/1 -> 1 step SGD.
-  Sa confiance est le Pmax du softmax brut (+ boost memoire kNN). Personne
-  ne lui dit s'il DOIT etre confiant : il ne voit que juste/faux, et doit
-  apprendre seul a savoir quand il ne sait pas.
+Sa confiance est le Pmax du softmax brut (+ boost memoire kNN). Personne
+ne lui dit s'il DOIT etre confiant : il ne voit que juste/faux, et doit
+apprendre seul a savoir quand il ne sait pas.
 
 Sources de donnees :
   synthetique : pool fini d'items (le monde revient)          [defaut local]
@@ -20,6 +20,15 @@ Sorties dans --out :
 Usage :
   python scripts/entrainer_local.py --n 100000 --out resultats/local --seed 1234
   python scripts/entrainer_local.py --reprendre resultats/local --n 50000
+  python scripts/entrainer_local.py --miel fold.npz --regles rep ...   [Phase 2]
+
+PHASE 2 (PROTOCOLE_PHASE2.md, pre-enregistre 04/10) :
+  --miel <npz> charge le miel de ruche FIXE (t=0, jamais mis a jour = anti-
+  auto-leak P2) et module la cible d'entrainement (protocole §3, knob-free) :
+      si sk > 0.5 : target = sk*onehot(maj) + (1-sk)*onehot(y)
+      sinon       : target = onehot(y)  [chemin STRICT identique a Phase 1]
+  Sans --miel, le chemin de calcul est byte-identique aux runs existants.
+  Telemetrie P6 : meta.miel.taux_activation (sinon un nul est mecanique).
 """
 import argparse
 import json
@@ -84,7 +93,7 @@ def charger_donnees(source, seed_data, cache=None, reserve_frac=0.0,
     reserve_frac > 0 : plan B (zero fuite par construction) -- la queue du
     corpus filtre est reservee au heldout ; le train ne voit que la tete et
     la marche modulo ne peut JAMAIS l'atteindre. Defaut 0.0 = comportement
-    identique aux runs existants (zéro regression). Doit etre genere par le
+    identique aux runs existants (zero regression). Doit etre genere par le
     generateur wiki_heldout avec le MEME cache (sinon cut different).
     regles : sous-ensemble de banc.gen_item restreint (distribution par shard).
     central_spec : JSON [{data_seed,regles,pool},...] -> pool = concat des
@@ -126,12 +135,68 @@ def charger_donnees(source, seed_data, cache=None, reserve_frac=0.0,
         i = (i + 1 + (seed_data % 7)) % (len(texte) - L_FEN - 1)
 
 
+# ------------------------------------------------------------------ PHASE 2
+def cible_miel(nv, y, maj, sk):
+    """Cible miel — PROTOCOLE_PHASE2.md §3 (pre-enregistre, knob-free).
+
+    sk > 0.5 : target = sk*onehot(maj) + (1-sk)*onehot(y)
+    sinon    : None (l'appelant garde la cible standard = onehot(y), chemin
+    strictement identique a Phase 1).
+    Le seul poids est sk lui-meme ; le seuil 0.5 est deja celui du mode DUR
+    de la spec nectar v1. si maj == y, la masse se recombine a 1.0 sur y.
+    Retourne un vecteur np.float32 de longueur nv.
+    """
+    if maj is None or not (sk > 0.5):
+        return None
+    t = np.zeros(int(nv), np.float32)
+    t[int(maj)] += np.float32(sk)
+    t[int(y)] += np.float32(1.0) - np.float32(sk)
+    return t
+
+
+def _charger_miel(path):
+    """Miel de ruche FIXE (Phase 2) : npz {keys, y_counts, n, ok}.
+
+    Contrat P2 : charge t=0, JAMAIS mis a jour pendant le run (jamais .add).
+    Consult = banc.MemoireConsolidee, keys cast f32 — LE MEME cast que le
+    harnais d'eval des deux cotes -> sk identiques train/eval.
+    """
+    z = np.load(path)
+    m = banc.MemoireConsolidee(k=5, cap=None)
+    m.keys = np.asarray(z["keys"], np.float32)
+    m.y_counts = np.asarray(z["y_counts"], np.int32)
+    m.n = np.asarray(z["n"], np.int32)
+    m.ok = np.asarray(z["ok"], np.float32)
+    return m, int(m.keys.shape[0])
+
+
+def _resume_miel(path, sha, m, n_miel, n_act, sk_vals, code_entre):
+    """Telemetrie P6 : taux d'activation de la cible-miel (obligatoire —
+    sans elle, un nul en (A) est mecanique et non interpretable)."""
+    a = np.asarray(sk_vals, np.float64)
+    d = {"fichier": str(path), "sha256": sha, "m": int(m),
+         "consultes": int(n_miel), "actifs": int(n_act),
+         "taux_activation": (float(n_act) / n_miel) if n_miel else float("nan"),
+         "code_sha_entre": code_entre}
+    if a.size:
+        d.update({"sk_moy": float(a.mean()),
+                  "sk_p50": float(np.percentile(a, 50)),
+                  "sk_p90": float(np.percentile(a, 90)),
+                  "sk_p99": float(np.percentile(a, 99)),
+                  "sk_max": float(a.max())})
+    else:
+        d.update({k: float("nan") for k in
+                  ("sk_moy", "sk_p50", "sk_p90", "sk_p99", "sk_max")})
+    return d
+
+
 # ------------------------------------------------------------------ boucle
 def boucle_entrainement(n, out_dir, seed, seed_data, source="synthetique",
                         cache=None, heldout_path=None, budget_s=None,
                         eval_every=1000, ckpt_every=25000, device=None,
                         amp=False, lr=3e-4, parent_dir=None, verbose=True,
-                        reserve_frac=0.0, regles=None, central_spec=None):
+                        reserve_frac=0.0, regles=None, central_spec=None,
+                        miel_path=None):
     """Coeur d'entrainement partage (local, GitHub, Colab, multi-seeds)."""
     device = device or ("cuda" if torch.cuda.is_available() else "cpu")
     out_dir = Path(out_dir)
@@ -167,6 +232,16 @@ def boucle_entrainement(n, out_dir, seed, seed_data, source="synthetique",
     gen = charger_donnees(source, seed_data, cache, reserve_frac,
                           regles, central_spec)
 
+    # --- miel de ruche FIXE (Phase 2) : charge t=0, jamais mis a jour (P2).
+    #     Sans --miel : miel=None et le chemin est identique a Phase 1.
+    miel, miel_m = None, 0
+    miel_sha = None
+    if miel_path:
+        miel, miel_m = _charger_miel(miel_path)
+        miel_sha = etat.sha256_file(Path(miel_path))
+    code_entre = etat.sha256_file(Path(__file__))[:12]
+    n_miel, n_act, sk_vals = 0, 0, []
+
     t0, n_fait, ms_lst = time.time(), 0, []
     for i in range(int(n)):
         src, cible = next(gen)
@@ -175,11 +250,25 @@ def boucle_entrainement(n, out_dir, seed, seed_data, source="synthetique",
             continue
         ids = banc.to_ids(src).unsqueeze(0).to(device)
 
+        # Phase 2 (protocole §3) : consult du miel fixe AVANT (le miel n'est
+        # jamais modifie ; la regle consult-avant-add est donc tenue).
+        tgt_m = None
+        if miel is not None:
+            maj_m, sk_m = miel.consult(src)
+            n_miel += 1
+            sk_vals.append(float(sk_m))
+            if maj_m is not None and sk_m > 0.5:
+                n_act += 1
+                tgt_m = cible_miel(banc.NV, y, maj_m, sk_m)
+
         model.train()
         t_iter = time.time()
         with torch.amp.autocast("cuda", enabled=amp and device.startswith("cuda")):
             logit = model(ids)
-            loss = lossf(logit, torch.tensor([y], device=device))
+            if tgt_m is not None:
+                loss = lossf(logit, torch.from_numpy(tgt_m).unsqueeze(0).to(device))
+            else:
+                loss = lossf(logit, torch.tensor([y], device=device))
         p = torch.softmax(logit.detach().float(), 1)[0]
         conf, pred = float(p.max()), int(p.argmax())
         maj, sk = mem.consult(src)
@@ -209,16 +298,26 @@ def boucle_entrainement(n, out_dir, seed, seed_data, source="synthetique",
         if ckpt_every and (i + 1) % ckpt_every == 0:
             _sauver(out_dir, model, mem, hist, parent_meta, cycle,
                     parent_n, n_fait, heldout_path, seed, seed_data,
-                    ms_lst, source, regles)
+                    ms_lst, source, regles,
+                    miel_meta=(_resume_miel(miel_path, miel_sha, miel_m,
+                                            n_miel, n_act, sk_vals, code_entre)
+                               if miel_path else None))
 
         if budget_s and (time.time() - t0) > float(budget_s):
             if verbose:
                 print(f"budget temps atteint ({budget_s}s) a {n_fait} interactions")
             break
 
+    if verbose and miel_path and n_miel:
+        print(f"miel phase2 : activation cible {n_act}/{n_miel} "
+              f"({100.0 * n_act / n_miel:.1f}%) sk>0.5", flush=True)
+
     res = _sauver(out_dir, model, mem, hist, parent_meta, cycle,
                   parent_n, n_fait, heldout_path, seed, seed_data,
-                  ms_lst, source, regles)
+                  ms_lst, source, regles,
+                  miel_meta=(_resume_miel(miel_path, miel_sha, miel_m,
+                                          n_miel, n_act, sk_vals, code_entre)
+                             if miel_path else None))
     return res
 
 
@@ -228,7 +327,8 @@ def evaluer_rapide(model, mem, items, device="cpu"):
 
 
 def _sauver(out_dir, model, mem, hist, parent_meta, cycle, parent_n,
-            n_fait, heldout_path, seed, seed_data, ms_lst, source, regles):
+            n_fait, heldout_path, seed, seed_data, ms_lst, source, regles,
+            miel_meta=None):
     ms_moy = float(np.mean(ms_lst)) if ms_lst else float("nan")
     code_sha = etat.sha256_file(ROOT / "banc.py")[:12]
     parent = ("root" if parent_meta is None else
@@ -252,6 +352,8 @@ def _sauver(out_dir, model, mem, hist, parent_meta, cycle, parent_n,
             "items_per_s": 1000.0 / ms_moy if ms_moy == ms_moy else float("nan"),
         },
     }
+    if miel_meta:  # Phase 2 seulement : absent des runs sans --miel
+        meta["miel"] = miel_meta
     etat.save_bundle(out_dir / "etat", model, mem, hist, meta)
     np.savez(out_dir / "hist.npz",
              **{k: np.asarray(v, np.float32) for k, v in hist.items()})
@@ -288,6 +390,9 @@ def main():
     ap.add_argument("--reprendre", default=None, help="dossier etat/ a continuer")
     ap.add_argument("--amp", action="store_true", help="mixed precision GPU")
     ap.add_argument("--device", default=None)
+    ap.add_argument("--miel", default=None,
+                    help="npz du miel de ruche FIXE {keys,y_counts,n,ok} : "
+                         "active la cible miel Phase 2 (PROTOCOLE §3)")
     a = ap.parse_args()
     seed_data = a.seed_data if a.seed_data is not None \
         else int(time.time()) ^ (os.getpid() << 8)
@@ -297,7 +402,7 @@ def main():
         budget_s=a.budget_seconds, eval_every=a.eval_every,
         ckpt_every=a.ckpt_every, device=a.device, amp=a.amp,
         reserve_frac=a.reserve_frac, regles=a.regles,
-        central_spec=a.central_spec,
+        central_spec=a.central_spec, miel_path=a.miel,
         parent_dir=(Path(a.reprendre) if a.reprendre else None))
     print(json.dumps(r, indent=2, ensure_ascii=False))
 
