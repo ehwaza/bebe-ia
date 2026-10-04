@@ -1,0 +1,83 @@
+{
+ "fichier": "nectar_lignes.jsonl",
+ "sha256": "293e7734d1875b94e0ab21b4097c30ed60c4460382529f168ed730df2edf4615",
+ "octets": 844167,
+ "abeilles": {
+  "34c926f8aab4fc2f": {
+   "dossier": "resultats/abeille0",
+   "data_seed": 7,
+   "init_seed": 1007,
+   "niche": "regles=rep; data_seed=7",
+   "regles": [
+    "rep"
+   ],
+   "m": 774,
+   "n_items": 84443,
+   "acc_final": 0.6888196771786885,
+   "ece_final": 0.057493601749591734,
+   "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+   "code_sha": "1ac15d6fc88c",
+   "arch": {
+    "d": 128,
+    "nl": 2,
+    "heads": 4,
+    "nv": 39
+   },
+   "h": "caf9ea4280a3fa73d0ca4bf5b24f27df5ab87f3a000e6d75812fdee124330737"
+  },
+  "701e8dbbd4747e62": {
+   "dossier": "resultats/abeille1",
+   "data_seed": 8,
+   "init_seed": 1008,
+   "niche": "regles=arith|miroir; data_seed=8",
+   "regles": [
+    "arith",
+    "miroir"
+   ],
+   "m": 545,
+   "n_items": 86937,
+   "acc_final": 0.7455628788663055,
+   "ece_final": 0.019339661481357653,
+   "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+   "code_sha": "1ac15d6fc88c",
+   "arch": {
+    "d": 128,
+    "nl": 2,
+    "heads": 4,
+    "nv": 39
+   },
+   "h": "ed28088771caafadfabae32045942fb670b2ec66143452d6171ad270d04fffec"
+  },
+  "8d7d54ff2ad1836e": {
+   "dossier": "resultats/abeille2",
+   "data_seed": 9,
+   "init_seed": 1009,
+   "niche": "regles=rnd|saut; data_seed=9",
+   "regles": [
+    "rnd",
+    "saut"
+   ],
+   "m": 608,
+   "n_items": 89012,
+   "acc_final": 0.6116141643823305,
+   "ece_final": 0.034133580619527704,
+   "heldout_sha256": "03ff6fbc03286bc15ff615d46d8ad3b878686e75070af3b52d53e9f345bc1abb",
+   "code_sha": "1ac15d6fc88c",
+   "arch": {
+    "d": 128,
+    "nl": 2,
+    "heads": 4,
+    "nv": 39
+   },
+   "h": "dcbc2b08701b687edc2d48e1b08907a2f01dc1a8b61acbfda3d746a76c093f80"
+  }
+ },
+ "chevauchement_probe": {
+  "n_probe": 2000,
+  "present_dans_union": 1182,
+  "taux": 0.591,
+  "methode": "vec(src) f32 tobytes dans union des keys des 3 abeilles",
+  "cible_lue": false
+ },
+ "probe_sha256": "1c34d5efa67638bef639a72204bf6033cb4863dbe36fef2512854616a9af228b"
+}
